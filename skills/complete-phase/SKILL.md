@@ -30,7 +30,7 @@ Execute these stages **in strict order**. If any stage fails, **stop immediately
 
 ### Stage 1 — Preflight
 
-1. Run `git status --short` to verify the working tree is clean. If there are uncommitted changes, stop and ask the user to commit or stash them first.
+1. Run `git status --short` to check working tree state. If there are uncommitted changes, check whether they appear to be work from the target phase (e.g., the user already implemented and is running the skill to finish the cycle). If so, note it and skip Stage 2 (Implement). If the changes look unrelated, warn the user and ask whether to proceed or stash first.
 2. Resolve the plan file path per the argument rules above. Read the file and confirm it exists.
 3. Identify the target phase (from `$2` or auto-detection). Print the phase title and a brief summary of what will be implemented.
 4. Ask the user to confirm before proceeding.
@@ -144,7 +144,7 @@ This saves the user from having to look up the file path and phase number.
 
 - **Never skip stages** — the order is intentional (simplify → test → review ensures review sees clean, working code)
 - **Stop on failure** — report what failed and which stage, so the user can fix and re-run
-- **Clean working tree required** — refuse to start with uncommitted changes
+- **Check working tree** — if uncommitted changes exist, determine if they're phase work (skip implement) or unrelated (warn user)
 - **Two separate commits** — implementation and plan update are always separate commits
 - **Feed forward sparingly** — only add notes when something genuinely affects future phases; always report changes to the user and get confirmation
 - **Confirm before starting** — always show the user what phase will run and wait for confirmation
